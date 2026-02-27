@@ -2,6 +2,7 @@ import React, { useEffect, useState } from "react";
 import { useSearchParams, Navigate } from "react-router-dom";
 import { api } from "../api/axios";
 import { useSocket } from "../hooks/useSocket";
+import { motion } from "framer-motion";
 
 export default function JudgeReview() {
   const [params] = useSearchParams();
@@ -22,9 +23,9 @@ export default function JudgeReview() {
 
   useEffect(() => {
     if (!hackathonId || !submissionId) return;
-    // no single-sub endpoint, so load from list
-    api.get(`/hackathons/${hackathonId}/submissions/all`)
-      .then((r) => setSub(r.data.find(x => x._id === submissionId) || null))
+    api
+      .get(`/hackathons/${hackathonId}/submissions/all`)
+      .then((r) => setSub(r.data.find((x) => x._id === submissionId) || null))
       .catch(console.error);
   }, [hackathonId, submissionId]);
 
@@ -37,73 +38,145 @@ export default function JudgeReview() {
     socket.emit("leaderboard:refresh", { hackathonId });
   }
 
+  const total = form.innovation + form.ux + form.complexity + form.presentation;
+
   return (
-    <div className="max-w-3xl mx-auto px-4 py-10">
-      <div className="rounded-2xl border bg-white p-6 shadow-sm">
-        <h1 className="text-2xl font-black text-slate-900">Review Submission</h1>
+    <div className="container-max py-10 max-w-3xl">
+      <motion.div
+        initial={{ opacity: 0, y: 15 }}
+        animate={{ opacity: 1, y: 0 }}
+        transition={{ duration: 0.4 }}
+        className="card p-6"
+      >
+        <h1 className="text-2xl font-black text-gradient">Review Submission</h1>
 
         {!sub ? (
-          <div className="mt-4 text-slate-600">Loading submission...</div>
+          <div className="mt-4 flex items-center gap-3 text-slate-500">
+            <svg className="w-5 h-5 animate-spin" viewBox="0 0 24 24" fill="none">
+              <circle cx="12" cy="12" r="10" stroke="currentColor" strokeWidth="3" className="opacity-25" />
+              <path fill="currentColor" d="M4 12a8 8 0 018-8v4a4 4 0 00-4 4H4z" className="opacity-75" />
+            </svg>
+            Loading submission...
+          </div>
         ) : (
           <>
-            <div className="mt-4 rounded-xl border bg-slate-50 p-4">
-              <div className="text-sm text-slate-600">Team</div>
-              <div className="text-lg font-bold">{sub.teamId?.name || "-"}</div>
-              <div className="mt-2 text-sm">
-                <a className="text-indigo-600 font-semibold" href={sub.githubUrl} target="_blank" rel="noreferrer">GitHub</a>
-                {sub.demoVideoUrl ? (
+            {/* Team info */}
+            <div className="mt-5 rounded-xl border border-slate-700/50 bg-slate-800/60 p-4">
+              <div className="text-xs text-slate-500">Team</div>
+              <div className="text-lg font-bold text-white">{sub.teamId?.name || "-"}</div>
+              <div className="mt-2 flex items-center gap-3 text-sm">
+                <a className="text-cyan-400 font-semibold hover:text-cyan-300" href={sub.githubUrl} target="_blank" rel="noreferrer">
+                  GitHub ↗
+                </a>
+                {sub.demoVideoUrl && (
                   <>
-                    <span className="mx-2 text-slate-400">•</span>
-                    <a className="text-indigo-600 font-semibold" href={sub.demoVideoUrl} target="_blank" rel="noreferrer">Demo</a>
+                    <span className="text-slate-600">•</span>
+                    <a className="text-cyan-400 font-semibold hover:text-cyan-300" href={sub.demoVideoUrl} target="_blank" rel="noreferrer">
+                      Demo ↗
+                    </a>
                   </>
-                ) : null}
+                )}
               </div>
             </div>
 
-            <div className="mt-5 grid sm:grid-cols-2 gap-4">
-              <Score label="Innovation (0-10)" value={form.innovation} onChange={(v) => setForm(p => ({...p, innovation: v}))} />
-              <Score label="UI/UX (0-10)" value={form.ux} onChange={(v) => setForm(p => ({...p, ux: v}))} />
-              <Score label="Complexity (0-10)" value={form.complexity} onChange={(v) => setForm(p => ({...p, complexity: v}))} />
-              <Score label="Presentation (0-10)" value={form.presentation} onChange={(v) => setForm(p => ({...p, presentation: v}))} />
+            {/* Score total indicator */}
+            <div className="mt-5 rounded-xl border border-slate-700/50 bg-slate-800/30 p-4 text-center">
+              <div className="text-xs text-slate-500">Total Score</div>
+              <div className="text-4xl font-black text-gradient mt-1">{total}</div>
+              <div className="text-xs text-slate-600 mt-1">out of 40</div>
+              <div className="mt-3 w-full h-2 rounded-full bg-slate-700/50 overflow-hidden">
+                <motion.div
+                  className="h-full rounded-full bg-gradient-to-r from-cyan-500 to-blue-500"
+                  initial={{ width: 0 }}
+                  animate={{ width: `${(total / 40) * 100}%` }}
+                  transition={{ duration: 0.5 }}
+                />
+              </div>
             </div>
 
-            <label className="block mt-4">
-              <div className="text-sm font-semibold">Note</div>
+            {/* Score sliders */}
+            <div className="mt-5 grid sm:grid-cols-2 gap-4">
+              <ScoreSlider
+                label="Innovation"
+                value={form.innovation}
+                onChange={(v) => setForm((p) => ({ ...p, innovation: v }))}
+                color="from-cyan-500 to-cyan-400"
+              />
+              <ScoreSlider
+                label="UI/UX"
+                value={form.ux}
+                onChange={(v) => setForm((p) => ({ ...p, ux: v }))}
+                color="from-blue-500 to-blue-400"
+              />
+              <ScoreSlider
+                label="Complexity"
+                value={form.complexity}
+                onChange={(v) => setForm((p) => ({ ...p, complexity: v }))}
+                color="from-violet-500 to-violet-400"
+              />
+              <ScoreSlider
+                label="Presentation"
+                value={form.presentation}
+                onChange={(v) => setForm((p) => ({ ...p, presentation: v }))}
+                color="from-pink-500 to-pink-400"
+              />
+            </div>
+
+            {/* Note */}
+            <label className="block mt-5">
+              <div className="text-sm font-semibold text-slate-300">Note</div>
               <textarea
-                className="mt-1 w-full px-4 py-2.5 rounded-xl border min-h-[110px]"
+                className="input min-h-[110px] resize-y"
                 value={form.note}
-                onChange={(e) => setForm(p => ({...p, note: e.target.value}))}
+                onChange={(e) => setForm((p) => ({ ...p, note: e.target.value }))}
                 placeholder="Feedback for team..."
               />
             </label>
 
             <button
               onClick={submitScore}
-              className="mt-5 w-full px-4 py-3 rounded-xl bg-slate-900 text-white font-semibold"
+              className="mt-5 btn btn-primary w-full py-3 text-base"
             >
               Submit Score
             </button>
 
-            {msg && <div className="mt-4 p-3 rounded-xl bg-emerald-50 border text-emerald-800 text-sm">{msg}</div>}
+            {msg && (
+              <div className="mt-4 p-3 rounded-xl bg-emerald-500/10 border border-emerald-500/20 text-emerald-400 text-sm">
+                {msg}
+              </div>
+            )}
           </>
         )}
-      </div>
+      </motion.div>
     </div>
   );
 }
 
-function Score({ label, value, onChange }) {
+function ScoreSlider({ label, value, onChange, color }) {
   return (
-    <label className="block">
-      <div className="text-sm font-semibold">{label}</div>
+    <div className="rounded-xl border border-slate-700/50 bg-slate-800/30 p-4">
+      <div className="flex items-center justify-between mb-2">
+        <div className="text-sm font-semibold text-slate-300">{label}</div>
+        <div className="text-lg font-black text-white">{value}</div>
+      </div>
       <input
-        type="number"
+        type="range"
         min="0"
         max="10"
-        className="mt-1 w-full px-4 py-2.5 rounded-xl border"
         value={value}
         onChange={(e) => onChange(Number(e.target.value))}
+        className="w-full h-2 rounded-full appearance-none cursor-pointer bg-slate-700/50
+          [&::-webkit-slider-thumb]:appearance-none [&::-webkit-slider-thumb]:w-5 [&::-webkit-slider-thumb]:h-5
+          [&::-webkit-slider-thumb]:rounded-full [&::-webkit-slider-thumb]:bg-gradient-to-r
+          [&::-webkit-slider-thumb]:from-cyan-400 [&::-webkit-slider-thumb]:to-blue-500
+          [&::-webkit-slider-thumb]:shadow-glow [&::-webkit-slider-thumb]:cursor-pointer"
       />
-    </label>
+      <div className="mt-1 w-full h-1.5 rounded-full bg-slate-700/50 overflow-hidden">
+        <div
+          className={`h-full rounded-full bg-gradient-to-r ${color}`}
+          style={{ width: `${value * 10}%` }}
+        />
+      </div>
+    </div>
   );
 }

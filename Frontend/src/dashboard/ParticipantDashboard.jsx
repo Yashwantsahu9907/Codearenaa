@@ -2,6 +2,7 @@ import React, { useContext, useEffect, useState } from "react";
 import { AuthContext } from "../context/AuthContext";
 import { api } from "../api/axios";
 import { Link, Navigate } from "react-router-dom";
+import { motion } from "framer-motion";
 
 export default function ParticipantDashboard() {
   const { user } = useContext(AuthContext);
@@ -12,44 +13,65 @@ export default function ParticipantDashboard() {
   }, []);
 
   if (!user) return <Navigate to="/login" replace />;
-
-  // redirect based on role
   if (user.role === "ORGANIZER") return <Navigate to="/organizer" replace />;
   if (user.role === "JUDGE") return <Navigate to="/judge" replace />;
 
   return (
-    <div className="max-w-6xl mx-auto px-4 py-10">
-      <div className="rounded-2xl border bg-white p-6 shadow-sm">
+    <div className="container-max py-10">
+      <motion.div
+        initial={{ opacity: 0, y: 15 }}
+        animate={{ opacity: 1, y: 0 }}
+        transition={{ duration: 0.4 }}
+        className="card p-6"
+      >
         <div className="text-xs text-slate-500">Dashboard</div>
-        <h1 className="text-3xl font-black text-slate-900 mt-1">
-          Welcome, {user.name}
+        <h1 className="text-3xl font-black mt-1">
+          Welcome, <span className="text-gradient">{user.name}</span>
         </h1>
-        <p className="text-slate-600 mt-2">
+        <p className="text-slate-400 mt-2">
           Pick a hackathon, create/join team and submit your project.
         </p>
 
         <div className="mt-5 flex flex-wrap gap-3">
-          <Link className="px-4 py-2.5 rounded-xl bg-indigo-600 text-white font-semibold" to="/hackathons">
+          <Link className="btn btn-primary" to="/hackathons">
             Browse Hackathons
           </Link>
-          <Link className="px-4 py-2.5 rounded-xl border bg-white font-semibold" to="/leaderboard">
+          <Link className="btn btn-outline" to="/leaderboard">
             Leaderboard
           </Link>
         </div>
-      </div>
+      </motion.div>
 
-      <div className="mt-6 grid sm:grid-cols-2 lg:grid-cols-3 gap-5">
-        {hackathons.slice(0, 6).map((h) => (
-          <Link key={h._id} to={`/hackathons/${h._id}`} className="rounded-2xl border bg-white p-5 hover:shadow-md transition">
-            <div className="text-xs text-slate-500">{h.mode}</div>
-            <div className="font-bold text-slate-900 mt-1">{h.title}</div>
-            <div className="text-sm text-slate-600 mt-1 line-clamp-2">{h.tagline}</div>
-            <div className="mt-3 text-xs text-slate-600">
-              Submission: <b>{new Date(h.submissionDeadline).toLocaleDateString()}</b>
-            </div>
-          </Link>
+      <motion.div
+        initial="hidden"
+        animate="visible"
+        variants={{ visible: { transition: { staggerChildren: 0.08 } } }}
+        className="mt-6 grid sm:grid-cols-2 lg:grid-cols-3 gap-5"
+      >
+        {hackathons.slice(0, 6).map((h, i) => (
+          <motion.div
+            key={h._id}
+            variants={{
+              hidden: { opacity: 0, y: 15 },
+              visible: { opacity: 1, y: 0, transition: { duration: 0.4 } },
+            }}
+          >
+            <Link
+              to={`/hackathons/${h._id}`}
+              className="card p-5 block hover:shadow-glow hover:border-cyan-500/30 transition-all duration-300 group"
+            >
+              <div className="text-xs text-slate-500">{h.mode}</div>
+              <div className="font-bold text-white mt-1 group-hover:text-gradient transition-colors">
+                {h.title}
+              </div>
+              <div className="text-sm text-slate-400 mt-1 line-clamp-2">{h.tagline}</div>
+              <div className="mt-3 text-xs text-slate-500">
+                Submission: <b className="text-slate-300">{new Date(h.submissionDeadline).toLocaleDateString()}</b>
+              </div>
+            </Link>
+          </motion.div>
         ))}
-      </div>
+      </motion.div>
     </div>
   );
 }

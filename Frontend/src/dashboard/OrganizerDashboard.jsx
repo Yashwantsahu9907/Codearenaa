@@ -2,6 +2,7 @@ import React, { useContext, useEffect, useState } from "react";
 import { AuthContext } from "../context/AuthContext";
 import { api } from "../api/axios";
 import { Navigate } from "react-router-dom";
+import { motion } from "framer-motion";
 
 export default function OrganizerDashboard() {
   const { user } = useContext(AuthContext);
@@ -45,7 +46,7 @@ export default function OrganizerDashboard() {
     const payload = {
       ...form,
       prizePool: Number(form.prizePool || 0),
-      domains: form.domains.split(",").map(s => s.trim()).filter(Boolean),
+      domains: form.domains.split(",").map((s) => s.trim()).filter(Boolean),
     };
     const r = await api.post("/hackathons", payload);
     setHackathons((p) => [r.data, ...p]);
@@ -62,121 +63,121 @@ export default function OrganizerDashboard() {
   }
 
   return (
-    <div className="max-w-6xl mx-auto px-4 py-10">
-      <div className="flex flex-col md:flex-row md:items-end justify-between gap-4">
-        <div>
-          <div className="text-xs text-slate-500">Organizer</div>
-          <h1 className="text-3xl font-black text-slate-900">Organizer Dashboard</h1>
-          <p className="text-slate-600 mt-1">Create and manage hackathons.</p>
+    <div className="container-max py-10">
+      <motion.div
+        initial={{ opacity: 0 }}
+        animate={{ opacity: 1 }}
+        transition={{ duration: 0.4 }}
+      >
+        <div className="flex flex-col md:flex-row md:items-end justify-between gap-4">
+          <div>
+            <div className="text-xs text-slate-500">Organizer</div>
+            <h1 className="section-heading">Organizer Dashboard</h1>
+            <p className="section-sub">Create and manage hackathons.</p>
+          </div>
+
+          <div className="flex gap-2">
+            <TabButton active={tab === "create"} onClick={() => setTab("create")}>Create</TabButton>
+            <TabButton active={tab === "manage"} onClick={() => setTab("manage")}>Manage</TabButton>
+            <TabButton active={tab === "analytics"} onClick={() => setTab("analytics")}>Analytics</TabButton>
+          </div>
         </div>
 
-        <div className="flex gap-2">
-          <TabButton active={tab === "create"} onClick={() => setTab("create")}>Create</TabButton>
-          <TabButton active={tab === "manage"} onClick={() => setTab("manage")}>Manage</TabButton>
-          <TabButton active={tab === "analytics"} onClick={() => setTab("analytics")}>Analytics</TabButton>
-        </div>
-      </div>
+        {tab !== "create" && (
+          <div className="mt-6 card p-5">
+            <div className="text-sm font-semibold text-slate-300">Select Hackathon</div>
+            <select
+              className="select-dark mt-2 w-full md:w-[420px]"
+              value={selected}
+              onChange={(e) => setSelected(e.target.value)}
+            >
+              {hackathons.map((h) => (
+                <option key={h._id} value={h._id}>{h.title}</option>
+              ))}
+            </select>
+          </div>
+        )}
 
-      {tab !== "create" && (
-        <div className="mt-6 rounded-2xl border bg-white p-5">
-          <div className="text-sm font-semibold">Select Hackathon</div>
-          <select
-            className="mt-2 w-full md:w-[420px] px-4 py-2.5 rounded-xl border bg-white"
-            value={selected}
-            onChange={(e) => setSelected(e.target.value)}
-          >
-            {hackathons.map((h) => (
-              <option key={h._id} value={h._id}>{h.title}</option>
-            ))}
-          </select>
-        </div>
-      )}
+        {tab === "create" && (
+          <div className="mt-6 grid lg:grid-cols-2 gap-6">
+            <Card title="Create Hackathon">
+              <Grid2>
+                <Input label="Title" value={form.title} onChange={(v) => setForm((p) => ({ ...p, title: v }))} />
+                <Input label="Tagline" value={form.tagline} onChange={(v) => setForm((p) => ({ ...p, tagline: v }))} />
+                <Select label="Mode" value={form.mode} onChange={(v) => setForm((p) => ({ ...p, mode: v }))} options={["ONLINE", "OFFLINE", "HYBRID"]} />
+                <Input label="City (optional)" value={form.city} onChange={(v) => setForm((p) => ({ ...p, city: v }))} />
+                <Input label="Prize Pool" value={form.prizePool} onChange={(v) => setForm((p) => ({ ...p, prizePool: v }))} />
+                <Input label="Domains (comma separated)" value={form.domains} onChange={(v) => setForm((p) => ({ ...p, domains: v }))} />
+                <Input label="Registration Start (ISO)" value={form.registrationStart} onChange={(v) => setForm((p) => ({ ...p, registrationStart: v }))} placeholder="2026-03-01T10:00:00" />
+                <Input label="Registration End (ISO)" value={form.registrationEnd} onChange={(v) => setForm((p) => ({ ...p, registrationEnd: v }))} placeholder="2026-03-10T23:59:59" />
+                <Input label="Submission Deadline (ISO)" value={form.submissionDeadline} onChange={(v) => setForm((p) => ({ ...p, submissionDeadline: v }))} placeholder="2026-03-12T23:59:59" />
+                <Input label="Result Date (ISO)" value={form.resultDate} onChange={(v) => setForm((p) => ({ ...p, resultDate: v }))} placeholder="2026-03-15T18:00:00" />
+              </Grid2>
 
-      {tab === "create" && (
-        <div className="mt-6 grid lg:grid-cols-2 gap-6">
-          <Card title="Create Hackathon">
-            <Grid2>
-              <Input label="Title" value={form.title} onChange={(v) => setForm(p => ({...p, title: v}))} />
-              <Input label="Tagline" value={form.tagline} onChange={(v) => setForm(p => ({...p, tagline: v}))} />
-              <Select label="Mode" value={form.mode} onChange={(v) => setForm(p => ({...p, mode: v}))}
-                options={["ONLINE","OFFLINE","HYBRID"]} />
-              <Input label="City (optional)" value={form.city} onChange={(v) => setForm(p => ({...p, city: v}))} />
-              <Input label="Prize Pool" value={form.prizePool} onChange={(v) => setForm(p => ({...p, prizePool: v}))} />
-              <Input label="Domains (comma separated)" value={form.domains} onChange={(v) => setForm(p => ({...p, domains: v}))} />
-              <Input label="Registration Start (ISO)" value={form.registrationStart} onChange={(v) => setForm(p => ({...p, registrationStart: v}))} placeholder="2026-03-01T10:00:00" />
-              <Input label="Registration End (ISO)" value={form.registrationEnd} onChange={(v) => setForm(p => ({...p, registrationEnd: v}))} placeholder="2026-03-10T23:59:59" />
-              <Input label="Submission Deadline (ISO)" value={form.submissionDeadline} onChange={(v) => setForm(p => ({...p, submissionDeadline: v}))} placeholder="2026-03-12T23:59:59" />
-              <Input label="Result Date (ISO)" value={form.resultDate} onChange={(v) => setForm(p => ({...p, resultDate: v}))} placeholder="2026-03-15T18:00:00" />
-            </Grid2>
+              <TextArea label="Description" value={form.description} onChange={(v) => setForm((p) => ({ ...p, description: v }))} />
 
-            <TextArea label="Description" value={form.description} onChange={(v) => setForm(p => ({...p, description: v}))} />
+              <button onClick={createHackathon} className="mt-4 btn btn-primary w-full py-3">
+                Create Hackathon
+              </button>
+            </Card>
 
-            <button onClick={createHackathon} className="mt-4 w-full px-4 py-3 rounded-xl bg-indigo-600 text-white font-semibold">
-              Create Hackathon
-            </button>
-          </Card>
+            <Card title="💡 Tips">
+              <ul className="text-sm text-slate-400 space-y-2 list-disc pl-5">
+                <li>ISO date format required (example shown in placeholders).</li>
+                <li>After creating, go to Manage tab and add Problem Statements.</li>
+                <li>Leaderboard works after Judges score submissions.</li>
+              </ul>
+            </Card>
+          </div>
+        )}
 
-          <Card title="Tips">
-            <ul className="text-sm text-slate-600 space-y-2 list-disc pl-5">
-              <li>ISO date format required (example shown in placeholders).</li>
-              <li>After creating, go to Manage tab and add Problem Statements.</li>
-              <li>Leaderboard works after Judges score submissions.</li>
-            </ul>
-          </Card>
-        </div>
-      )}
+        {tab === "manage" && (
+          <div className="mt-6 grid lg:grid-cols-2 gap-6">
+            <Card title="Add Problem Statement">
+              <Input label="Title" value={problem.title} onChange={(v) => setProblem((p) => ({ ...p, title: v }))} />
+              <Grid2>
+                <Input label="Category" value={problem.category} onChange={(v) => setProblem((p) => ({ ...p, category: v }))} />
+                <Select label="Difficulty" value={problem.difficulty} onChange={(v) => setProblem((p) => ({ ...p, difficulty: v }))} options={["EASY", "MEDIUM", "HARD"]} />
+              </Grid2>
+              <TextArea label="Statement" value={problem.statement} onChange={(v) => setProblem((p) => ({ ...p, statement: v }))} />
+              <Input label="PDF URL (optional)" value={problem.pdfUrl} onChange={(v) => setProblem((p) => ({ ...p, pdfUrl: v }))} />
+              <button onClick={addProblem} className="mt-4 btn btn-dark w-full py-3">
+                Add Problem
+              </button>
+            </Card>
 
-      {tab === "manage" && (
-        <div className="mt-6 grid lg:grid-cols-2 gap-6">
-          <Card title="Add Problem Statement">
-            <Input label="Title" value={problem.title} onChange={(v) => setProblem(p => ({...p, title: v}))} />
-            <Grid2>
-              <Input label="Category" value={problem.category} onChange={(v) => setProblem(p => ({...p, category: v}))} />
-              <Select
-                label="Difficulty"
-                value={problem.difficulty}
-                onChange={(v) => setProblem(p => ({...p, difficulty: v}))}
-                options={["EASY","MEDIUM","HARD"]}
-              />
-            </Grid2>
-            <TextArea label="Statement" value={problem.statement} onChange={(v) => setProblem(p => ({...p, statement: v}))} />
-            <Input label="PDF URL (optional)" value={problem.pdfUrl} onChange={(v) => setProblem(p => ({...p, pdfUrl: v}))} />
-            <button onClick={addProblem} className="mt-4 w-full px-4 py-3 rounded-xl bg-slate-900 text-white font-semibold">
-              Add Problem
-            </button>
-          </Card>
+            <Card title="📢 Announcements (Stub)">
+              <div className="text-sm text-slate-400">
+                Announcement feature backend model exists in our plan; UI stub added.
+                Next step: create announcement route + store + push via socket.
+              </div>
+              <div className="mt-3 rounded-xl border border-slate-700/50 bg-slate-800/60 p-4 text-sm text-slate-500">
+                You can ask me: "add announcements full" and I'll add backend+frontend.
+              </div>
+            </Card>
+          </div>
+        )}
 
-          <Card title="Announcements (Stub)">
-            <div className="text-sm text-slate-600">
-              Announcement feature backend model exists in our plan; UI stub added.
-              Next step: create announcement route + store + push via socket.
-            </div>
-            <div className="mt-3 rounded-xl border bg-slate-50 p-4 text-sm text-slate-700">
-              You can ask me: “add announcements full” and I’ll add backend+frontend.
-            </div>
-          </Card>
-        </div>
-      )}
-
-      {tab === "analytics" && (
-        <div className="mt-6 grid lg:grid-cols-3 gap-6">
-          <Card title="Analytics (Stub)">
-            <div className="text-sm text-slate-600">
-              Next: API to compute counts (teams, submissions, active users).
-            </div>
-          </Card>
-          <Card title="Export (Stub)">
-            <div className="text-sm text-slate-600">
-              Next: CSV export endpoint for teams/submissions.
-            </div>
-          </Card>
-          <Card title="Anti-Cheat (Basic done)">
-            <div className="text-sm text-slate-600">
-              Duplicate GitHub per hackathon is blocked via unique index.
-            </div>
-          </Card>
-        </div>
-      )}
+        {tab === "analytics" && (
+          <div className="mt-6 grid lg:grid-cols-3 gap-6">
+            <Card title="📊 Analytics (Stub)">
+              <div className="text-sm text-slate-400">
+                Next: API to compute counts (teams, submissions, active users).
+              </div>
+            </Card>
+            <Card title="📥 Export (Stub)">
+              <div className="text-sm text-slate-400">
+                Next: CSV export endpoint for teams/submissions.
+              </div>
+            </Card>
+            <Card title="🛡️ Anti-Cheat (Basic done)">
+              <div className="text-sm text-slate-400">
+                Duplicate GitHub per hackathon is blocked via unique index.
+              </div>
+            </Card>
+          </div>
+        )}
+      </motion.div>
     </div>
   );
 }
@@ -186,8 +187,10 @@ function TabButton({ active, children, onClick }) {
     <button
       onClick={onClick}
       className={
-        "px-4 py-2.5 rounded-xl border font-semibold " +
-        (active ? "bg-slate-900 text-white border-slate-900" : "bg-white hover:bg-slate-50")
+        "btn " +
+        (active
+          ? "bg-gradient-to-r from-cyan-500 to-blue-600 text-white shadow-glow"
+          : "btn-outline")
       }
     >
       {children}
@@ -197,8 +200,8 @@ function TabButton({ active, children, onClick }) {
 
 function Card({ title, children }) {
   return (
-    <div className="rounded-2xl border bg-white p-6 shadow-sm">
-      <div className="font-bold text-slate-900">{title}</div>
+    <div className="card p-6">
+      <div className="font-bold text-white">{title}</div>
       <div className="mt-4 space-y-3">{children}</div>
     </div>
   );
@@ -211,9 +214,9 @@ function Grid2({ children }) {
 function Input({ label, value, onChange, placeholder }) {
   return (
     <label className="block">
-      <div className="text-sm font-semibold">{label}</div>
+      <div className="text-sm font-semibold text-slate-300">{label}</div>
       <input
-        className="mt-1 w-full px-4 py-2.5 rounded-xl border"
+        className="input"
         value={value}
         onChange={(e) => onChange(e.target.value)}
         placeholder={placeholder || ""}
@@ -225,9 +228,9 @@ function Input({ label, value, onChange, placeholder }) {
 function TextArea({ label, value, onChange }) {
   return (
     <label className="block">
-      <div className="text-sm font-semibold">{label}</div>
+      <div className="text-sm font-semibold text-slate-300">{label}</div>
       <textarea
-        className="mt-1 w-full px-4 py-2.5 rounded-xl border min-h-[110px]"
+        className="input min-h-[110px] resize-y"
         value={value}
         onChange={(e) => onChange(e.target.value)}
       />
@@ -238,9 +241,9 @@ function TextArea({ label, value, onChange }) {
 function Select({ label, value, onChange, options }) {
   return (
     <label className="block">
-      <div className="text-sm font-semibold">{label}</div>
+      <div className="text-sm font-semibold text-slate-300">{label}</div>
       <select
-        className="mt-1 w-full px-4 py-2.5 rounded-xl border bg-white"
+        className="select-dark w-full mt-1"
         value={value}
         onChange={(e) => onChange(e.target.value)}
       >
