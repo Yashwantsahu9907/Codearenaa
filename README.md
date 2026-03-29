@@ -3,6 +3,10 @@
 **The ultimate national-level hackathon management platform.** 
 Build, compete, and win with top-tier tools tailored for participants, organizers, and judges.
 
+**🚀 Live Deployment:**
+- **Frontend**: [https://codearenaa-ten.vercel.app](https://codearenaa-ten.vercel.app)
+- **Backend API**: [https://codearenaa.onrender.com](https://codearenaa.onrender.com)
+
 ---
 
 ## 🚀 Features

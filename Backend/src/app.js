@@ -17,7 +17,15 @@ export function createApp() {
   const app = express();
 
   app.use(helmet());
-  app.use(cors({ origin: env.CLIENT_URL, credentials: true }));
+  app.use(cors({ 
+    origin: [
+      env.CLIENT_URL, 
+      "http://localhost:5173", 
+      "https://codearenaa-ten.vercel.app",
+      "https://codearenaa-ten.vercel.app/"
+    ], 
+    credentials: true 
+  }));
   app.use(express.json({ limit: "2mb" }));
   app.use(cookieParser());
   app.use(morgan("dev"));

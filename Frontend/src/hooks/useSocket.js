@@ -4,7 +4,7 @@ import { io } from "socket.io-client";
 export function useSocket({ hackathonId, teamId }) {
   const socketUrl = import.meta.env.VITE_API_URL 
     ? import.meta.env.VITE_API_URL.replace('/api', '') 
-    : "http://localhost:8080";
+    : "https://codearenaa.onrender.com";
   const socket = useMemo(() => io(socketUrl), []);
 
   useEffect(() => {
