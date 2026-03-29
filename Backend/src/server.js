@@ -29,5 +29,13 @@ io.on("connection", (socket) => {
   });
 });
 
-await connectDB(env.MONGO_URI);
-server.listen(env.PORT, () => console.log(`✅ API running on http://localhost:${env.PORT}`));
+try {
+  if (!env.MONGO_URI) {
+    throw new Error("MONGO_URI environment variable is not defined!");
+  }
+  await connectDB(env.MONGO_URI);
+  server.listen(env.PORT, () => console.log(`✅ API running on http://localhost:${env.PORT}`));
+} catch (error) {
+  console.error("❌ Backend Startup Failed:", error.message);
+  process.exit(1);
+}
