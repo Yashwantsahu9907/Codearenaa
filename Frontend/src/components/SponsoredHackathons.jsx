@@ -131,7 +131,7 @@ export default function SponsoredHackathons({ showBrowseCTA = true }) {
     );
 }
 
-function SponsoredCard({ sponsor, title, prize, gradient, bgGlow, tags, intro, benefit, delayIndex = 0 }) {
+function SponsoredCard({ sponsor, title, prize, tags, intro, benefit, delayIndex = 0 }) {
     const [isFlipped, setIsFlipped] = useState(false);
 
     // Map sponsor to solid background colors matching reference image

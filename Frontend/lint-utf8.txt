@@ -1,0 +1,106 @@
+﻿
+> frontend@0.0.0 lint
+> eslint .
+
+
+B:\Codearenaa\Frontend\src\components\Footer.jsx
+  3:10  error  'motion' is defined but never used. Allowed unused vars must match /^[A-Z_]/u  no-unused-vars
+
+B:\Codearenaa\Frontend\src\components\Navbar.jsx
+  5:10  error  'motion' is defined but never used. Allowed unused vars must match /^[A-Z_]/u  no-unused-vars
+
+B:\Codearenaa\Frontend\src\components\SponsoredHackathons.jsx
+    3:10  error  'motion' is defined but never used. Allowed unused vars must match /^[A-Z_]/u  no-unused-vars
+  134:49  error  'gradient' is defined but never used                                           no-unused-vars
+  134:59  error  'bgGlow' is defined but never used                                             no-unused-vars
+
+B:\Codearenaa\Frontend\src\components\UserReviews.jsx
+  2:10  error  'motion' is defined but never used. Allowed unused vars must match /^[A-Z_]/u  no-unused-vars
+
+B:\Codearenaa\Frontend\src\context\AuthContext.jsx
+   4:14  error  Fast refresh only works when a file only exports components. Move your React context(s) to a separate file                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                   react-refresh/only-export-components
+  12:19  error  Error: Calling setState synchronously within an effect can trigger cascading renders
+
+Effects are intended to synchronize state between React and external systems such as manually updating the DOM, state management libraries, or other platform APIs. In general, the body of an effect should do one or both of the following:
+* Update external systems with the latest state from React.
+* Subscribe for updates from some external system, calling setState in a callback function when external state changes.
+
+Calling setState synchronously within an effect body causes cascading renders that can hurt performance, and is not recommended. (https://react.dev/learn/you-might-not-need-an-effect).
+
+  10 |   useEffect(() => {
+  11 |     setAuthToken(token);
+> 12 |     if (!token) { setUser(null); return; }
+     |                   ^^^^^^^ Avoid calling setState() directly within an effect
+  13 |     api.get("/auth/me").then(r => setUser(r.data.user)).catch(() => {
+  14 |       setToken(""); localStorage.removeItem("token"); setUser(null);
+  15 |     });  react-hooks/set-state-in-effect
+
+B:\Codearenaa\Frontend\src\context\ThemeContext.jsx
+  3:14  error  Fast refresh only works when a file only exports components. Move your React context(s) to a separate file  react-refresh/only-export-components
+
+B:\Codearenaa\Frontend\src\dashboard\JudgeDashboard.jsx
+  5:10  error  'motion' is defined but never used. Allowed unused vars must match /^[A-Z_]/u  no-unused-vars
+
+B:\Codearenaa\Frontend\src\dashboard\JudgeReview.jsx
+  5:10  error  'motion' is defined but never used. Allowed unused vars must match /^[A-Z_]/u  no-unused-vars
+
+B:\Codearenaa\Frontend\src\dashboard\OrganizerDashboard.jsx
+  5:10  error  'motion' is defined but never used. Allowed unused vars must match /^[A-Z_]/u  no-unused-vars
+
+B:\Codearenaa\Frontend\src\dashboard\ParticipantDashboard.jsx
+   5:10  error  'motion' is defined but never used. Allowed unused vars must match /^[A-Z_]/u  no-unused-vars
+  51:41  error  'i' is defined but never used                                                  no-unused-vars
+
+B:\Codearenaa\Frontend\src\pages\AuthLogin.jsx
+  4:10  error  'motion' is defined but never used. Allowed unused vars must match /^[A-Z_]/u  no-unused-vars
+
+B:\Codearenaa\Frontend\src\pages\AuthRegister.jsx
+  4:10  error  'motion' is defined but never used. Allowed unused vars must match /^[A-Z_]/u  no-unused-vars
+
+B:\Codearenaa\Frontend\src\pages\HackathonDetails.jsx
+   6:10  error  'motion' is defined but never used. Allowed unused vars must match /^[A-Z_]/u                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                         no-unused-vars
+  57:7   error  Error: Calling setState synchronously within an effect can trigger cascading renders
+
+Effects are intended to synchronize state between React and external systems such as manually updating the DOM, state management libraries, or other platform APIs. In general, the body of an effect should do one or both of the following:
+* Update external systems with the latest state from React.
+* Subscribe for updates from some external system, calling setState in a callback function when external state changes.
+
+Calling setState synchronously within an effect body causes cascading renders that can hurt performance, and is not recommended. (https://react.dev/learn/you-might-not-need-an-effect).
+
+  55 |   useEffect(() => {
+  56 |     if (submission) {
+> 57 |       setSubmitForm((p) => ({
+     |       ^^^^^^^^^^^^^ Avoid calling setState() directly within an effect
+  58 |         ...p,
+  59 |         githubUrl: submission.githubUrl || "",
+  60 |         demoVideoUrl: submission.demoVideoUrl || "",  react-hooks/set-state-in-effect
+
+B:\Codearenaa\Frontend\src\pages\Hackathons.jsx
+  4:10  error  'motion' is defined but never used. Allowed unused vars must match /^[A-Z_]/u  no-unused-vars
+
+B:\Codearenaa\Frontend\src\pages\Home.jsx
+  3:10  error  'motion' is defined but never used. Allowed unused vars must match /^[A-Z_]/u  no-unused-vars
+
+B:\Codearenaa\Frontend\src\pages\Leaderboard.jsx
+   4:10  error    'motion' is defined but never used. Allowed unused vars must match /^[A-Z_]/u                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                  no-unused-vars
+  64:5   error    Error: Calling setState synchronously within an effect can trigger cascading renders
+
+Effects are intended to synchronize state between React and external systems such as manually updating the DOM, state management libraries, or other platform APIs. In general, the body of an effect should do one or both of the following:
+* Update external systems with the latest state from React.
+* Subscribe for updates from some external system, calling setState in a callback function when external state changes.
+
+Calling setState synchronously within an effect body causes cascading renders that can hurt performance, and is not recommended. (https://react.dev/learn/you-might-not-need-an-effect).
+
+  62 |
+  63 |   useEffect(() => {
+> 64 |     load().catch(console.error);
+     |     ^^^^ Avoid calling setState() directly within an effect
+  65 |   }, [hackathonId]);
+  66 |
+  67 |   useEffect(() => {  react-hooks/set-state-in-effect
+  65:6   warning  React Hook useEffect has a missing dependency: 'load'. Either include it or remove the dependency array                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                        react-hooks/exhaustive-deps
+  70:6   warning  React Hook useEffect has a missing dependency: 'load'. Either include it or remove the dependency array                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                        react-hooks/exhaustive-deps
+  73:9   error    'rest' is assigned a value but never used. Allowed unused vars must match /^[A-Z_]/u                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                           no-unused-vars
+
+Γ£û 25 problems (23 errors, 2 warnings)
+

@@ -1,0 +1,72 @@
+﻿node : node:internal/m
+odules/package_json_re
+ader:316
+At line:1 char:1
++ node src/server.js 
+> err.txt 2>&1
++ ~~~~~~~~~~~~~~~~~~~~
+~~~~~~~~~~~~~
+    + CategoryInfo    
+          : NotSpeci  
+  fied: (node:inter   
+ nal/m...json_read    
+er:316:String) []    
+, RemoteException
+    + FullyQualifiedE 
+   rrorId : NativeCo  
+  mmandError
+ 
+  throw new ERR_MODULE
+_NOT_FOUND(packageName
+, 
+fileURLToPath(base), 
+null);
+        ^
+
+Error [ERR_MODULE_NOT_
+FOUND]: Cannot find 
+package 'helmet' 
+imported from B:\Codea
+renaa\Backend\src\app.
+js
+    at Object.getPacka
+geJSONURL (node:intern
+al/modules/package_jso
+n_reader:316:9)
+    at packageResolve 
+(node:internal/modules
+/esm/resolve:768:81)
+    at moduleResolve (
+node:internal/modules/
+esm/resolve:858:18)
+    at defaultResolve 
+(node:internal/modules
+/esm/resolve:990:11)
+    at 
+#cachedDefaultResolve 
+(node:internal/modules
+/esm/loader:712:20)
+    at #resolveAndMayb
+eBlockOnLoaderThread (
+node:internal/modules/
+esm/loader:729:38)
+    at ModuleLoader.re
+solveSync (node:intern
+al/modules/esm/loader:
+758:52)
+    at #resolve (node:
+internal/modules/esm/l
+oader:694:17)
+    at ModuleLoader.ge
+tOrCreateModuleJob (no
+de:internal/modules/es
+m/loader:614:35)
+    at 
+ModuleJob.syncLink (no
+de:internal/modules/es
+m/module_job:143:33) {
+  code: 
+'ERR_MODULE_NOT_FOUND'
+}
+
+Node.js v25.2.1

@@ -70,7 +70,6 @@ export default function Leaderboard() {
   }, [socket, hackathonId]);
 
   const topThree = rows.slice(0, 3);
-  const rest = rows.slice(3);
   const maxScore = 40;
 
   return (

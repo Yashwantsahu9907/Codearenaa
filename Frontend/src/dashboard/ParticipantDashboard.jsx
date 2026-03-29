@@ -48,7 +48,7 @@ export default function ParticipantDashboard() {
         variants={{ visible: { transition: { staggerChildren: 0.08 } } }}
         className="mt-6 grid sm:grid-cols-2 lg:grid-cols-3 gap-5"
       >
-        {hackathons.slice(0, 6).map((h, i) => (
+        {hackathons.slice(0, 6).map((h) => (
           <motion.div
             key={h._id}
             variants={{
