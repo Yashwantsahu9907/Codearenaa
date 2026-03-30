@@ -12,9 +12,7 @@ import ProtectedRoute from "../components/ProtectedRoute";
 import RoleRoute from "../components/RoleRoute";
 
 import OrganizerDashboard from "../dashboard/OrganizerDashboard";
-import JudgeDashboard from "../dashboard/JudgeDashboard";
 import ParticipantDashboard from "../dashboard/ParticipantDashboard";
-import JudgeReview from "../dashboard/JudgeReview";
 
 export default function AppRoutes() {
   return (
@@ -44,23 +42,6 @@ export default function AppRoutes() {
         }
       />
 
-      <Route
-        path="/judge"
-        element={
-          <RoleRoute allow={["JUDGE"]}>
-            <JudgeDashboard />
-          </RoleRoute>
-        }
-      />
-
-      <Route
-        path="/judge-review"
-        element={
-          <RoleRoute allow={["JUDGE"]}>
-            <JudgeReview />
-          </RoleRoute>
-        }
-      />
     </Routes>
   );
 }

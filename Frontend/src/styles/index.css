@@ -34,7 +34,7 @@ body {
 /* ── Utilities ─────────────────────────────────────────── */
 @layer components {
   .container-max {
-    @apply max-w-6xl mx-auto px-4;
+    @apply max-w-7xl mx-auto px-4 sm:px-6 lg:px-8;
   }
 
   /* Glass card */
@@ -108,11 +108,11 @@ body {
 
   /* Section heading */
   .section-heading {
-    @apply text-3xl font-extrabold text-slate-900 dark:text-white tracking-tight;
+    @apply text-3xl md:text-4xl lg:text-5xl font-extrabold text-slate-900 dark:text-white tracking-tight leading-tight;
   }
 
   .section-sub {
-    @apply text-slate-600 dark:text-slate-400 mt-1;
+    @apply text-base md:text-lg text-slate-600 dark:text-slate-400 mt-2 md:max-w-2xl leading-relaxed;
   }
 }
 

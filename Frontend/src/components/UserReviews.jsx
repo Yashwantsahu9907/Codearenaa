@@ -11,14 +11,7 @@ const fadeUp = {
 };
 
 const REVIEWS = [
-    {
-        name: "Aisha Sharma",
-        role: "Full Stack Developer",
-        avatar: "https://api.dicebear.com/7.x/avataaars/svg?seed=Aisha&backgroundColor=b6e3f4",
-        review: "The Judges Panel is a game-changer. I received incredibly detailed rubric scores and feedback which helped our team identify exactly what to improve.",
-        hackathon: "Build with AI Hackathon",
-        rating: 5,
-    },
+
     {
         name: "Rahul Verma",
         role: "Hackathon Organizer",
@@ -59,7 +52,7 @@ export default function UserReviews() {
                     Loved by <span className="text-gradient">Developers & Organizers</span>
                 </h2>
                 <p className="text-slate-600 dark:text-slate-400 mt-3 max-w-2xl mx-auto leading-relaxed">
-                    See how Codearenaa is transforming the hackathon experience for participants, host communities, and judges across the country.
+                    See how Codearenaa is transforming the hackathon experience for participants and host communities across the country.
                 </p>
                 <div className="mt-6 mx-auto w-24 h-1 rounded-full bg-gradient-to-r from-emerald-500 via-teal-500 to-cyan-500" />
             </motion.div>

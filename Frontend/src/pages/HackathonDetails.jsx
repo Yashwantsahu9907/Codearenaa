@@ -1,5 +1,5 @@
 import React, { useContext, useEffect, useMemo, useState } from "react";
-import { useParams } from "react-router-dom";
+import { useParams, Link } from "react-router-dom";
 import { api } from "../api/axios";
 import { AuthContext } from "../context/AuthContext";
 import { useSocket } from "../hooks/useSocket";
@@ -249,8 +249,24 @@ export default function HackathonDetails() {
 
         {/* Right — Sidebar */}
         <div className="w-full md:w-[380px] space-y-6">
-          {/* Team */}
-          <div className="card p-6">
+          {user?.role === 'ORGANIZER' && (
+            <div className="card p-6 border-cyan-500/30 shadow-glow bg-cyan-500/5">
+              <div className="font-bold text-white flex items-center gap-2">
+                <span>🎯</span> Organizer View
+              </div>
+              <div className="text-sm text-slate-400 mt-2">
+                Participants can join teams and submit projects here. To manage this hackathon, go to your Organizer Dashboard.
+              </div>
+              <Link to="/organizer" className="btn btn-outline border-cyan-500/50 text-cyan-400 hover:bg-cyan-500/10 w-full mt-4">
+                Go to Dashboard
+              </Link>
+            </div>
+          )}
+
+          {user?.role !== 'ORGANIZER' && (
+            <>
+              {/* Team */}
+              <div className="card p-6">
             <div className="font-bold text-white flex items-center gap-2">
               <span>👥</span> Team
             </div>
@@ -390,6 +406,8 @@ export default function HackathonDetails() {
               </div>
             )}
           </div>
+          </>
+          )}
 
           {/* Chat */}
           <div className="card p-6">

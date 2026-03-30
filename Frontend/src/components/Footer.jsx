@@ -19,7 +19,7 @@ export default function Footer() {
               <span className="text-slate-900 dark:text-white">ARENA</span>
             </Link>
             <p className="text-sm text-slate-600 dark:text-slate-400 leading-relaxed mb-6 max-w-sm">
-              The ultimate national-level hackathon management platform. Build, compete, and win with top-tier tools for participants, organizers, and judges.
+              The ultimate national-level hackathon management platform. Build, compete, and win with top-tier tools for participants and organizers.
             </p>
 
             <div className="space-y-3">
@@ -52,7 +52,6 @@ export default function Footer() {
             <h4 className="text-slate-900 dark:text-white font-bold mb-5 tracking-wide">Features</h4>
             <ul className="space-y-3 text-sm text-slate-600 dark:text-slate-400">
               <li className="hover:text-cyan-500 dark:hover:text-cyan-400 transition-colors cursor-pointer">Organizer Dashboard</li>
-              <li className="hover:text-cyan-500 dark:hover:text-cyan-400 transition-colors cursor-pointer">Live Judge Panel</li>
               <li className="hover:text-cyan-500 dark:hover:text-cyan-400 transition-colors cursor-pointer">Real-time Mentoring</li>
               <li className="hover:text-cyan-500 dark:hover:text-cyan-400 transition-colors cursor-pointer">Auto Certificates</li>
             </ul>

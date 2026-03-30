@@ -6,7 +6,6 @@ import { motion } from "framer-motion";
 const roles = [
   { value: "PARTICIPANT", label: "Participant", icon: "🚀", desc: "Join teams & submit projects" },
   { value: "ORGANIZER", label: "Organizer", icon: "🎯", desc: "Create & manage hackathons" },
-  { value: "JUDGE", label: "Judge", icon: "⚖️", desc: "Review & score submissions" },
   { value: "MENTOR", label: "Mentor", icon: "🧠", desc: "Guide participants" },
 ];
 

@@ -35,8 +35,21 @@ export async function mySubmission(req, res) {
   res.json(s);
 }
 
-export async function listSubmissionsForJudge(req, res) {
+export async function listAllSubmissions(req, res) {
   const { hackathonId } = req.params;
   const list = await Submission.find({ hackathonId }).populate("teamId", "name");
   res.json(list);
+}
+
+export async function listPublicSubmissions(req, res) {
+  const { hackathonId } = req.params;
+  const list = await Submission.find({ hackathonId }).populate("teamId", "name");
+  const publicList = list.map((s, i) => ({
+    submissionId: s._id,
+    rank: i + 1,
+    team: { name: s.teamId?.name || "Unknown Team" },
+    githubUrl: s.githubUrl,
+    demoVideoUrl: s.demoVideoUrl,
+  }));
+  res.json(publicList);
 }

@@ -82,7 +82,13 @@ export default function Navbar() {
                 </span>
                 <span className="badge-brand text-[10px]">{user.role}</span>
               </div>
-              <Link className="btn btn-outline" to="/dashboard">Dashboard</Link>
+              {user.role === "ORGANIZER" ? (
+                <Link className="btn btn-outline border-cyan-500/50 text-cyan-400 hover:bg-cyan-500/10" to="/organizer">
+                  Organize Hackathon
+                </Link>
+              ) : (
+                <Link className="btn btn-outline" to="/dashboard">Dashboard</Link>
+              )}
               <button className="btn btn-dark" onClick={logout}>Logout</button>
             </div>
           )}
@@ -134,7 +140,11 @@ export default function Navbar() {
                   <div className="text-slate-400 text-xs">
                     Signed in as <b className="text-slate-200">{user.name}</b> • {user.role}
                   </div>
-                  <Link className="btn btn-outline text-center" to="/dashboard" onClick={() => setMobileOpen(false)}>Dashboard</Link>
+                  {user.role === "ORGANIZER" ? (
+                    <Link className="btn btn-outline text-center border-cyan-500/50 text-cyan-400" to="/organizer" onClick={() => setMobileOpen(false)}>Organize Hackathon</Link>
+                  ) : (
+                    <Link className="btn btn-outline text-center" to="/dashboard" onClick={() => setMobileOpen(false)}>Dashboard</Link>
+                  )}
                   <button className="btn btn-dark" onClick={() => { logout(); setMobileOpen(false); }}>Logout</button>
                 </div>
               )}

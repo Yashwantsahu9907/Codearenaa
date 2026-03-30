@@ -31,23 +31,7 @@ const FEATURES = [
     ],
     cta: { text: "Go to Organizer Panel", link: "/organizer" },
   },
-  {
-    id: "judge",
-    icon: "⚖️",
-    gradient: "from-blue-500 to-violet-600",
-    title: "Judge Panel",
-    shortDesc: "Comprehensive scoring with detailed rubrics and feedback.",
-    features: ["Innovation & creativity scoring", "UI/UX evaluation", "Technical complexity review", "Presentation quality rating"],
-    detailTitle: "Rubric-based Scoring System",
-    detailDesc: "Judges get a streamlined review panel with interactive sliders for each scoring dimension. Rate submissions across Innovation, UI/UX, Technical Complexity, and Presentation — each on a 0-10 scale. Leave detailed feedback notes and watch the leaderboard update in real-time.",
-    detailSteps: [
-      { label: "Review", desc: "Browse all submissions with GitHub & demo links" },
-      { label: "Score", desc: "Use interactive sliders across 4 rubric dimensions" },
-      { label: "Feedback", desc: "Leave detailed notes for each team" },
-      { label: "Publish", desc: "Scores auto-aggregate to the live leaderboard" },
-    ],
-    cta: { text: "Go to Judge Panel", link: "/judge" },
-  },
+
   {
     id: "leaderboard",
     icon: "🏆",
@@ -56,11 +40,11 @@ const FEATURES = [
     shortDesc: "Real-time rankings and automatic certificate generation.",
     features: ["Live score aggregation", "Gold/Silver/Bronze badges", "Downloadable PDF certificates", "Socket-powered updates"],
     detailTitle: "Live Rankings & Auto Certificates",
-    detailDesc: "The leaderboard aggregates scores from all judges in real-time, displaying teams ranked by average score with visual progress bars. Top 3 teams get gold, silver, and bronze gradient badges. Once results are finalized, every participant can download a personalized PDF certificate.",
+    detailDesc: "The leaderboard tracks team submissions up to the deadline. Top teams get gold, silver, and bronze gradient badges upon final evaluation. Once results are finalized, every participant can download a personalized PDF certificate.",
     detailSteps: [
-      { label: "Aggregate", desc: "Average scores across all judges automatically" },
+      { label: "Track", desc: "View all participating teams and their submission status" },
       { label: "Rank", desc: "Teams ranked with visual score bars and badges" },
-      { label: "Refresh", desc: "Socket.io pushes live updates as scores come in" },
+      { label: "Refresh", desc: "Real-time updates as submissions come in" },
       { label: "Certify", desc: "Auto-generated PDF certificates for download" },
     ],
     cta: { text: "View Leaderboard", link: "/leaderboard" },
@@ -95,7 +79,7 @@ export default function Home() {
             </motion.h1>
 
             <motion.p variants={fadeUp} className="mt-5 text-slate-600 dark:text-slate-400 text-lg leading-relaxed max-w-lg">
-              Teams, problem statements, submissions, judge scoring, leaderboard, real-time chat,
+              Teams, problem statements, submissions, leaderboard, real-time chat,
               announcements and certificates — all in a sleek dashboard experience.
             </motion.p>
 
@@ -109,7 +93,7 @@ export default function Home() {
             </motion.div>
 
             <motion.div variants={fadeUp} className="mt-12 grid grid-cols-3 gap-4">
-              <Stat t="Role-based" v="Auth" d="Participant / Organizer / Judge" />
+              <Stat t="Role-based" v="Auth" d="Participant / Organizer" />
               <Stat t="Realtime" v="Chat" d="Team + global rooms" />
               <Stat t="Auto" v="PDF" d="Certificate generator" />
             </motion.div>
@@ -128,15 +112,14 @@ export default function Home() {
             </div>
 
             <div className="mt-5 space-y-4">
-              <Step n="1" t="Register & choose role" d="Participant / Organizer / Judge" />
+              <Step n="1" t="Register & choose role" d="Participant / Organizer" />
               <Step n="2" t="Create / Join team" d="Invite code based joining" />
               <Step n="3" t="Submit links" d="GitHub + Demo + PPT/PDF" />
-              <Step n="4" t="Judges score" d="Rubric scoring + notes" />
-              <Step n="5" t="Leaderboard + certificate" d="Ranks + PDF download" />
+              <Step n="4" t="Leaderboard + certificate" d="Ranks + PDF download" />
             </div>
 
             <div className="mt-6 rounded-xl border border-slate-300 bg-slate-100 dark:border-slate-700/50 dark:bg-slate-800/60 p-4 text-sm text-slate-600 dark:text-slate-400">
-              Organizer creates hackathon + problems. Judges review. Participants submit.
+              Organizer creates hackathon + problems. Participants submit.
             </div>
           </motion.div>
         </div>
